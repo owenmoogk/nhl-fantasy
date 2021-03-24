@@ -1,0 +1,39 @@
+*{
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+body{
+    width: 90%;
+    margin: auto;
+}
+
+#nav{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#nav a{
+    font-size: 20px;
+    color: black;
+    margin: 10px;
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+}
+#nav a:hover{
+    border-bottom: 2px solid black;
+}
+
+#items{
+    overflow-x: hidden;
+    width: 100%;
+}
+th{
+    text-align: left;
+}
+td, th { 
+    overflow-wrap: anywhere;
+}
+button a{
+    color: black;
+    text-decoration: none;
+}

@@ -1,0 +1,17 @@
+{%extends "teams/teamBase.html"%}
+
+{%block teamContent %}
+    <table>
+        {%for key, value in data.items %}
+            <tr>
+            {%for key1, value1 in value.items %}
+                {% if key1 != "id"%}
+                    <td>
+                        {{value1}}
+                    </td>
+                {%endif%}
+            {%endfor%}
+            </tr>
+        {%endfor%}
+    </table>
+{%endblock%}
