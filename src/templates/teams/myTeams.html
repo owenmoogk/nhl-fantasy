@@ -2,15 +2,31 @@
 
 {%block teamContent %}
     <table>
-        {%for key, value in data.items %}
+        <th>Team</th>
+        <th></th>
+        <th>Roster</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Ties</th>
+        <th>Un-star</th>
+        {%for team in teams %}
             <tr>
-            {%for key1, value1 in value.items %}
-                {% if key1 != "id"%}
-                    <td>
-                        {{value1}}
-                    </td>
-                {%endif%}
-            {%endfor%}
+                <td>{{team.name}}</td>
+                <td>{{team.abbreviation}}</td>
+                <td><a href="javascript: void(0)">Players</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <form method="POST"> {% csrf_token %}
+                        <input type="text" value="{{team.id}}" name="id" style="display: none;">
+                        {% if request.user.id in team.users %}
+                            <input type="submit" value="Un-star" name="unstar">
+                        {% else %}
+                            <input type="submit" value="Favorite" name="star">
+                        {%endif%}
+                    </form>
+                </td>
             </tr>
         {%endfor%}
     </table>
