@@ -17,7 +17,7 @@ def getTeams(request):
     if time.time()-86400 > date:
 
         # update the date file
-        with open(".vars.txt", "w") as varsText:
+        with open("vars.txt", "w") as varsText:
             varsText.write(str(time.time()))
 
         baseUrl = "https://statsapi.web.nhl.com/"
@@ -35,5 +35,3 @@ def getTeams(request):
             databaseTeam.abbreviation = team["abbreviation"]
             databaseTeam.link = team["link"]
             databaseTeam.save()
-
-        print("done")
