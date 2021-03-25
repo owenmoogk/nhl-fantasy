@@ -7,7 +7,6 @@ class Team(models.Model):
     name = models.CharField(max_length=120)
     abbreviation = models.CharField(max_length=3)
     id = models.IntegerField(primary_key=True)
-    link = models.CharField(max_length=120)
     wins = models.IntegerField(default=0)
     losses = models.IntegerField(default=0)
     ties = models.IntegerField(default=0)
