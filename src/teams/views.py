@@ -32,6 +32,8 @@ def myTeamView(request):
             if team.users:
                 if request.user.id in team.users:
                     data.append(team)
+    if len(data) == 0:
+        return HttpResponseRedirect("/allTeams")
     context = {
         "teams": data,
     }
