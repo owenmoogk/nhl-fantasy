@@ -5,19 +5,19 @@ import time
 def getTeams(request):
     # trys, except the file doesnt exist
     try:
-        with open("vars.txt", "r") as varsText:
+        with open("teamTime.txt", "r") as varsText:
             date = varsText.readline(0)
-            date = int(date)
+            date = int(float(date))
     except Exception:
         # create it, it is now 1970 /shrug
-        with open("vars.txt", "w"):
+        with open("teamTime.txt", "w"):
             date = 0
 
     # ONLY RUNS THIS EVERY DAYISH
     if time.time()-86400 > date:
 
         # update the date file
-        with open("vars.txt", "w") as varsText:
+        with open("teamTime.txt", "w") as varsText:
             varsText.write(str(time.time()))
 
         baseUrl = "https://statsapi.web.nhl.com/"

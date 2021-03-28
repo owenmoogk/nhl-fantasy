@@ -9,16 +9,16 @@ def updatePlayers():
     # trys, except the file doesnt exist
     try:
         with open("playerTime.txt", "r") as varsText:
-            date = varsText.readline(0)
-            date = int(date)
-    except Exception:
+            date = varsText.readline()
+            date = int(float(date))
+    except Exception as e:
         # create it, it is now 1970 /shrug
         with open("playerTime.txt", "w"):
             date = 0
 
     # ONLY RUNS THIS EVERY DAYISH
     if time.time()-86400 > date:
-        print("updating player database")
+        print("updating players")
         # update the date file
         with open("playerTime.txt", "w") as varsText:
             varsText.write(str(time.time()))
@@ -32,7 +32,6 @@ def updatePlayers():
             time.sleep(0.1)
 
         for player in playerDicts:
-            print(player["id"])
             # player is the dictionary
             stats = getPlayerStatsById(player["id"])
 
