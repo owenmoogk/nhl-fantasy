@@ -1,12 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from teams.models import Team
+from .models import *
 from threading import *
 from django.http import HttpResponseRedirect
+from .helpers import updatePlayers
 
 # Create your views here.
 @login_required
 def rosterView(request, **kwargs):
+
+    # pull data if needed
+    t1 = Thread(target=updatePlayers, args=(request, ))
+    t1.start()
+    
     teamId = kwargs["teamId"]
     print(teamId)
     context = {
@@ -17,8 +23,17 @@ def rosterView(request, **kwargs):
 
 @login_required
 def playerView(request, **kwargs):
+
+    # pull data if needed
+    t1 = Thread(target=updatePlayers)
+    t1.start()
+
     playerId = kwargs["playerId"]
+    try:
+        player = Player.objects.get(id = playerId)
+    except:
+        player = 1
     context = {
-        "id": playerId,
+        "id": player,
     }
     return(render(request, "players/players.html", context))
