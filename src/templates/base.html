@@ -9,10 +9,12 @@
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static '/css/styles.css' %}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static '/js/sort-table.js'%}"></script>
     </head>
     <body>
         {% include 'navbar.html' %}
         {% block content %} 
         {% endblock %}
+        <script>sortTable()</script>
     </body>
 </html>
