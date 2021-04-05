@@ -5,21 +5,6 @@ from threading import *
 from django.http import HttpResponseRedirect
 from .helpers import updatePlayers
 
-# Create your views here.
-@login_required
-def rosterView(request, **kwargs):
-
-    # pull data if needed
-    t1 = Thread(target=updatePlayers, args=(request, ))
-    t1.start()
-    
-    teamId = kwargs["teamId"]
-    print(teamId)
-    context = {
-        "id": teamId,
-    }
-    return(render(request, "players/players.html", context))
-
 
 @login_required
 def playerView(request, **kwargs):
