@@ -1,6 +1,19 @@
 {%extends "base.html"%}
 
 {%block content %}
-    <p>players page</p>
-    <p>{{id}}</p>
+    <p>{{player.name}}</p>
+    <p>Born: DATE</p>
+    <p>Shoots: DIRECTION</p>
+    <table>
+        <tr>
+            <th>Goals</th>
+            <th>Assists</th>
+            <th>Shots</th>
+        </tr>
+        <tr>
+            <td>{{player.goals}}</td>
+            <td>{{player.assists}}</td>
+        </tr>
+    </table>
+    
 {%endblock%}
