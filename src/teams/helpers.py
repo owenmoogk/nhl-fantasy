@@ -24,14 +24,29 @@ def getTeams(request):
         r = requests.get(baseUrl + '/api/v1/teams')
         originalData = r.json()
         originalData = originalData["teams"]
+        # originalData is the dictionary containing all the metadata of all the teams
+
+        # team is the dictionary with the current teams metadata
         for team in originalData:
-            id = team["id"]
-            try:
-                databaseTeam = Team.objects.get(id = id)
-            except Exception:
-                Team.objects.create(id = id)
-                databaseTeam = Team.objects.get(id = id)
-            databaseTeam.name = team["name"]
-            databaseTeam.abbreviation = team["abbreviation"]
-            databaseTeam.link = team["link"]
-            databaseTeam.save()
+
+            # getting the stats for the current team
+            currTeamId = team["id"]
+            teamStats = getTeamStats(currTeamId)
+
+            # combining the team metadata with the stats for the final dictionary
+            teamData = team | teamStats
+            
+            # https://stackoverflow.com/questions/5503925/how-do-i-use-a-dictionary-to-update-fields-in-django-models
+            instance, created = Team.objects.get_or_create(id=currTeamId)
+            if not created:
+                for attr, value in teamData.items(): 
+                    setattr(instance, attr, value)
+                instance.save()
+
+# gets the stats of the team, returns as a dictionary
+def getTeamStats(id):
+    baseUrl = "https://statsapi.web.nhl.com/"
+    r = requests.get(baseUrl + '/api/v1/teams/' + str(id) + "/stats")
+    teamData = r.json()
+    teamData = teamData["stats"][0]["splits"][0]["stat"]
+    return(teamData)

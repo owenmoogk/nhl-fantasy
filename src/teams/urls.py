@@ -5,4 +5,5 @@ from .views import *
 urlpatterns = [
     url(r"^myTeams/", myTeamView),
     url(r"^allTeams/", allTeamView),
+    path("team/<int:teamId>/", teamView),
 ]

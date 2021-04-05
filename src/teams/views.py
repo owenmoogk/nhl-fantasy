@@ -78,3 +78,52 @@ def allTeamView(request):
         "teams": data,
     }
     return(render(request, "teams/allTeams.html", context))
+
+
+@login_required
+def teamView(request, **kwargs):
+
+    if request.method == "POST":
+        if "star" in request.POST:
+            favorite(request)
+        
+        if "unstar" in request.POST:
+            unfavorite(request)
+            
+        return HttpResponseRedirect(request.path)
+
+    # pull data if needed
+    t1 = Thread(target=getTeams, args=(request, ))
+    t1.start()
+
+    id = kwargs["teamId"]
+
+    try:
+        team = Team.objects.get(id = id)
+    except:
+        context = {
+            "error": "The team could not be found",
+        }
+        return(render(request, "teams/team.html", context))
+
+    players = list(Player.objects.all())
+    teamPlayers = []
+    if players != None:
+        for player in players:
+            if player.teamId == id:
+                teamPlayers.append(player)
+
+    goalies = list(Goalie.objects.all())
+    teamGoalies = []
+    if goalies != None:
+        for goalie in goalies:
+            if goalie.teamId == id:
+                teamGoalies.append(goalie)
+
+    context = {
+        "team": team,
+        "players": teamPlayers,
+        "goalies": teamGoalies,
+    }
+
+    return(render(request, "teams/team.html", context))

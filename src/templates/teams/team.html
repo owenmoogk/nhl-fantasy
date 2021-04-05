@@ -1,0 +1,39 @@
+{%extends "teams/teamBase.html"%}
+
+{%block teamContent %}
+    {%if error != None%}
+        <p>{{error}}</p>
+
+    {%else%}
+
+        <table>
+            <th>Team</th>
+            <th>Abbreviation</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th>Ties</th>
+            <th>Un-star</th>
+            <tr>
+                <td>{{team.name}}</td>
+                <td>{{team.abbreviation}}</td>
+                <td>{{team.wins}}</td>
+                <td>{{team.losses}}</td>
+                <td>{{team.ties}}</td>
+                <td>
+                    {%include "teams/favButton.html"%}
+                </td>
+            </tr>
+        </table>
+        <h2>Roster</h2>
+        <h3>Players</h3>
+        {%for player in players%}
+            <a href="/players/{{player.id}}">{{player.name}}</a>
+            <br>
+        {%endfor%}
+        <h3>Goalies</h3>
+        {%for goalie in goalies%}
+            <a href="/players/{{goalie.id}}">{{goalie.name}}</a>
+            <br>
+        {%endfor%}
+    {%endif%}
+{%endblock%}
