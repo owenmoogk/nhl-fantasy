@@ -21,14 +21,7 @@
                     <td>{{team.ties}}</td>
                     <td><a href="/team/{{team.id}}">Roster</a></td>
                     <td>
-                        <form method="POST"> {% csrf_token %}
-                            <input type="text" value="{{team.id}}" name="id" style="display: none;">
-                            {% if request.user.id in team.users %}
-                                <input type="submit" value="Un-star" name="unstar">
-                            {% else %}
-                                <input type="submit" value="Favorite" name="star">
-                            {%endif%}
-                        </form>
+                        {%include "teams/favButton.html"%}
                     </td>
                 </tr>
             {%endfor%}
