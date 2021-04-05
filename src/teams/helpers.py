@@ -6,7 +6,7 @@ def getTeams(request):
     # trys, except the file doesnt exist
     try:
         with open("teamTime.txt", "r") as varsText:
-            date = varsText.readline(0)
+            date = varsText.readline()
             date = int(float(date))
     except Exception:
         # create it, it is now 1970 /shrug
