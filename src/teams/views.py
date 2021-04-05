@@ -4,20 +4,34 @@ from .models import Team
 from threading import *
 from .helpers import *
 from django.http import HttpResponseRedirect
+from players.models import *
+
+def unfavorite(request):
+    obj = Team.objects.get(id = request.POST.get("id"))
+    userList = obj.users
+    userList.remove(request.user.id)
+    obj.users = userList
+    obj.save()
+
+def favorite(request):
+    obj = Team.objects.get(id = request.POST.get("id"))
+    userList = obj.users
+    if userList == None:
+        userList = []
+    if request.user.id not in userList:
+        userList.append(request.user.id)
+    obj.users = userList
+    obj.save()
+
+
 
 @login_required
 def myTeamView(request):
 
     if request.method == "POST":
         if "unstar" in request.POST:
-            obj = Team.objects.get(id = request.POST.get("id"))
-            userList = obj.users
-            userList.remove(request.user.id)
-            obj.users = userList
-            obj.save()
-            
-        # redirects here in a get request... fixes refresh problem
-        return HttpResponseRedirect('/myTeams')
+            unfavorite(request)
+        return HttpResponseRedirect(request.path)
 
     # pull data if needed
     t1 = Thread(target=getTeams, args=(request, ))
@@ -50,21 +64,10 @@ def allTeamView(request):
     # if the user wants to save a team
     if request.method == "POST":
         if "star" in request.POST:
-            obj = Team.objects.get(id = request.POST.get("id"))
-            userList = obj.users
-            if userList == None:
-                userList = []
-            if request.user.id not in userList:
-                userList.append(request.user.id)
-            obj.users = userList
-            obj.save()
+            favorite(request)
         
         if "unstar" in request.POST:
-            obj = Team.objects.get(id = request.POST.get("id"))
-            userList = obj.users
-            userList.remove(request.user.id)
-            obj.users = userList
-            obj.save()
+            unfavorite(request)
 
         # redirects here in a get request... fixes refresh problem
         return HttpResponseRedirect('/allTeams')
