@@ -17,8 +17,12 @@ def playerView(request, **kwargs):
     try:
         player = Player.objects.get(id = playerId)
     except:
-        player = 1
+        try:
+            player = Goalie.objects.get(id = playerId)
+        except:
+            player = "Player does not exist"
+            print(player)
     context = {
-        "id": player,
+        "player": player,
     }
     return(render(request, "players/players.html", context))
