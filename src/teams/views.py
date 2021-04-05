@@ -70,7 +70,7 @@ def allTeamView(request):
             unfavorite(request)
 
         # redirects here in a get request... fixes refresh problem
-        return HttpResponseRedirect('/allTeams')
+        return HttpResponseRedirect(request.path)
 
     # main view
     data = Team.objects.all()
