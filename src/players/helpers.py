@@ -74,9 +74,6 @@ def updatePlayers():
                     print(player["id"])
                     print(stats)
 
-            
-    
-        # then put into database
 
 # this might be a problem, i might have to add in some delay to not get an error for accessing too fast
 def getPlayerStatsById(id):
