@@ -1,3 +1,5 @@
+//pulled from https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript
+
 function sortTable() {
     const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
