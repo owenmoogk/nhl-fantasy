@@ -57,10 +57,6 @@ def myTeamView(request):
 @login_required
 def allTeamView(request):
 
-    # pull data if needed
-    t1 = Thread(target=getTeams, args=(request, ))
-    t1.start()
-
     # if the user wants to save a team
     if request.method == "POST":
         if "star" in request.POST:
@@ -71,6 +67,10 @@ def allTeamView(request):
 
         # redirects here in a get request... fixes refresh problem
         return HttpResponseRedirect(request.path)
+
+    # pull data if needed
+    t1 = Thread(target=getTeams, args=(request, ))
+    t1.start()
 
     # main view
     data = Team.objects.all()
