@@ -55,6 +55,7 @@ class Player(models.Model):
 
     shifts = models.IntegerField(default=0)
 
+    # USERS
     users = models.JSONField(null=True)
 
 class Goalie(models.Model):
@@ -115,4 +116,5 @@ class Goalie(models.Model):
     games = models.IntegerField(default=0)
     gamesStarted = models.IntegerField(default=0) 
 
+    # USERS
     users = models.JSONField(null=True)
