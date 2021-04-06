@@ -3,6 +3,7 @@ from .models import Team
 import time
 
 def getTeams(request):
+
     # trys, except the file doesnt exist
     try:
         with open("teamTime.txt", "r") as varsText:
@@ -15,6 +16,14 @@ def getTeams(request):
 
     # ONLY RUNS THIS EVERY DAYISH
     if time.time()-86400 > date:
+
+        print("getting the team data")
+
+        # DOCUMENTATION
+        # 1. Get all the teams metadata
+        # 2. For each team, get the id and retrieve the stats for the corresponding id
+        # 3. Make a final dictionary called teamData, which contains both the metadata and the stats of the team (joining dictionaries with | operator)
+        # 4. save the instance with code from stack overflow :)
 
         # update the date file
         with open("teamTime.txt", "w") as varsText:
