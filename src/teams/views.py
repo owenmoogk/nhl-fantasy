@@ -6,31 +6,37 @@ from .helpers import *
 from django.http import HttpResponseRedirect
 from players.models import *
 
-def unfavorite(request):
-    obj = Team.objects.get(id = request.POST.get("id"))
-    userList = obj.users
-    userList.remove(request.user.id)
-    obj.users = userList
-    obj.save()
-
 def favorite(request):
-    obj = Team.objects.get(id = request.POST.get("id"))
+    if request.POST.get("objectType") == "team":
+        obj = Team.objects.get(id = request.POST.get("id"))
+    elif request.POST.get("objectType") == "player":
+        obj = Player.objects.get(id = request.POST.get("id"))
+    elif request.POST.get("objectType") == "goalie":
+        obj = Goalie.objects.get(id = request.POST.get("id"))
+
     userList = obj.users
+
     if userList == None:
         userList = []
-    if request.user.id not in userList:
+        
+    if request.user.id not in userList and "star" in request.POST:
         userList.append(request.user.id)
+    if request.user.id in userList and "unstar" in request.POST:
+        userList.remove(request.user.id)
+
     obj.users = userList
     obj.save()
 
+def handlePost(request):
+    if "star" in request.POST or "unstar" in request.POST:
+        favorite(request)
 
 
 @login_required
 def myTeamView(request):
 
     if request.method == "POST":
-        if "unstar" in request.POST:
-            unfavorite(request)
+        handlePost(request)
         return HttpResponseRedirect(request.path)
 
     # pull data if needed
@@ -59,13 +65,7 @@ def allTeamView(request):
 
     # if the user wants to save a team
     if request.method == "POST":
-        if "star" in request.POST:
-            favorite(request)
-        
-        if "unstar" in request.POST:
-            unfavorite(request)
-
-        # redirects here in a get request... fixes refresh problem
+        handlePost(request)
         return HttpResponseRedirect(request.path)
 
     # pull data if needed
@@ -84,12 +84,7 @@ def allTeamView(request):
 def teamView(request, **kwargs):
 
     if request.method == "POST":
-        if "star" in request.POST:
-            favorite(request)
-        
-        if "unstar" in request.POST:
-            unfavorite(request)
-            
+        handlePost(request)
         return HttpResponseRedirect(request.path)
 
     # pull data if needed
