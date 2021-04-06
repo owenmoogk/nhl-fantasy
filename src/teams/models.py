@@ -19,7 +19,7 @@ class Team(models.Model):
     losses = models.IntegerField(default=0)
     ot = models.IntegerField(default=0)
     pts = models.IntegerField(default=0)
-    ptPctg = models.DecimalField(decimal_places=3, max_digits=100, default=0)
+    ptPctg = models.DecimalField(decimal_places=1, max_digits=100, default=0)
 
     goalsPerGame = models.DecimalField(decimal_places=3, max_digits=100, default=0)
     goalsAgainstPerGame = models.DecimalField(decimal_places=3, max_digits=100, default=0)
