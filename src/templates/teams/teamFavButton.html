@@ -1,5 +1,6 @@
 <form method="POST"> {% csrf_token %}
     <input type="text" value="{{team.id}}" name="id" style="display: none;">
+    <input type="text" value="team" name="objectType" style="display: none;">
     {% if request.user.id in team.users %}
         <input type="submit" value="Un-star" name="unstar">
     {% else %}

@@ -3,23 +3,27 @@
 {%block teamContent %}
     <div id="myTeams">
         <table>
-            <th>Team</th>
-            <th>Abb</th>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Ties</th>
-            <th>Page</th>
-            <th></th>
+            <tr>
+                <th>Team</th>
+                <th>Abb</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Ties</th>
+                <th>Points</th>
+                <th>Point Percentage</th>
+                <th></th>
+            </tr>
             {%for team in teams %}
                 <tr>
-                    <td>{{team.name}}</td>
+                    <td><a href="/team/{{team.id}}">{{team.name}}</a></td>
                     <td>{{team.abbreviation}}</td>
                     <td>{{team.wins}}</td>
                     <td>{{team.losses}}</td>
-                    <td>{{team.ties}}</td>
-                    <td><a href="/team/{{team.id}}">Roster</a></td>
+                    <td>{{team.ot}}</td>
+                    <td>{{team.pts}}</td>
+                    <td>{{team.ptPctg}}</td>
                     <td>
-                        {%include "teams/favButton.html"%}
+                        {%include "teams/teamFavButton.html"%}
                     </td>
                 </tr>
             {%endfor%}

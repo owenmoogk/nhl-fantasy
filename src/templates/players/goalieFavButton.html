@@ -1,0 +1,9 @@
+<form method="POST"> {% csrf_token %}
+    <input type="text" value="{{goalie.id}}" name="id" style="display: none;">
+    <input type="text" value="goalie" name="objectType" style="display: none;">
+    {% if request.user.id in goalie.users %}
+        <input type="submit" value="Un-star" name="unstar">
+    {% else %}
+        <input type="submit" value="Favorite" name="star">
+    {%endif%}
+</form>
