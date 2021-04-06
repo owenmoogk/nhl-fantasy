@@ -37,7 +37,7 @@ def getTeams(request):
 
         # team is the dictionary with the current teams metadata
         for team in originalData:
-
+            print("gettng teaim data")
             # getting the stats for the current team
             currTeamId = team["id"]
             teamStats = getTeamStats(currTeamId)
@@ -47,10 +47,10 @@ def getTeams(request):
             
             # https://stackoverflow.com/questions/5503925/how-do-i-use-a-dictionary-to-update-fields-in-django-models
             instance, created = Team.objects.get_or_create(id=currTeamId)
-            if not created:
-                for attr, value in teamData.items(): 
-                    setattr(instance, attr, value)
-                instance.save()
+            for attr, value in teamData.items(): 
+                setattr(instance, attr, value)
+            instance.save()
+
 
 # gets the stats of the team, returns as a dictionary
 def getTeamStats(id):
