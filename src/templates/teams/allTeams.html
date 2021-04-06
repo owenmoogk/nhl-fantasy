@@ -9,6 +9,8 @@
                 <th>Wins</th>
                 <th>Losses</th>
                 <th>Ties</th>
+                <th>Points</th>
+                <th>Point Percentage</th>
                 <th></th>
             </tr>
             {%for team in teams %}
@@ -18,6 +20,8 @@
                     <td>{{team.wins}}</td>
                     <td>{{team.losses}}</td>
                     <td>{{team.ot}}</td>
+                    <td>{{team.pts}}</td>
+                    <td>{{team.ptPctg}}</td>
                     <td>
                         {%include "teams/favButton.html"%}
                     </td>
