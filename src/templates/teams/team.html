@@ -26,10 +26,27 @@
         </table>
         <h2>Roster</h2>
         <h3>Players</h3>
-        {%for player in players%}
-            <a href="/players/{{player.id}}">{{player.name}}</a>
-            <br>
+        <table>
+            <tr>
+                <th></th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Points</th>
+                <th>Shots</th>
+            </tr>
+            {%for player in players%}
+            <tr>
+                <td><a href="/players/{{player.id}}">{{player.name}}</a></td>
+                <td>{{player.goals}}</td>
+                <td>{{player.assists}}</td>
+                <td>{{player.points}}</td>
+                <td>{{player.shots}}</td>
+                <td>
+                    {%include "teams/favButton.html"%}
+                </td>
+            </tr>
         {%endfor%}
+        </table>
         <h3>Goalies</h3>
         {%for goalie in goalies%}
             <a href="/players/{{goalie.id}}">{{goalie.name}}</a>
