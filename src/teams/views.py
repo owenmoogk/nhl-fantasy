@@ -5,6 +5,7 @@ from threading import *
 from .helpers import *
 from django.http import HttpResponseRedirect
 from players.models import *
+from players.views import *
 
 def favorite(request):
     if request.POST.get("objectType") == "team":
@@ -32,6 +33,7 @@ def handlePost(request):
         favorite(request)
 
 @login_required
+def teamsView(request):
 
     # if the user wants to save a team
     if request.method == "POST":
@@ -60,6 +62,8 @@ def teamView(request, **kwargs):
     # pull data if needed
     t1 = Thread(target=getTeams, args=(request, ))
     t1.start()
+    t2 = Thread(target=updatePlayers, args=(request, ))
+    t2.start()
 
     id = kwargs["teamId"]
 
