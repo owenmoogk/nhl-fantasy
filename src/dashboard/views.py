@@ -5,6 +5,8 @@ from players.helpers import updatePlayers
 from threading import *
 from django.contrib.auth.decorators import login_required
 from players.models import *
+from django.http import HttpResponseRedirect
+
 
 @login_required
 def dashboardView(request):
