@@ -1,7 +1,7 @@
 {%extends "base.html"%}
 
-{%block teamContent %}
-    <div id="myTeams">
+{%block content %}
+    <div id="dashboard">
         <table>
             <tr>
                 <th>Team</th>
@@ -28,5 +28,33 @@
                 </tr>
             {%endfor%}
         </table>
+        <h3>Players</h3>
+        <table>
+            <tr>
+                <th>Player</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Points</th>
+                <th>Shots</th>
+            </tr>
+            {%for player in players%}
+                <tr>
+                    <td><a href="/players/{{player.id}}">{{player.firstName}} {{player.lastName}}</a></td>
+                    <td>{{player.goals}}</td>
+                    <td>{{player.assists}}</td>
+                    <td>{{player.points}}</td>
+                    <td>{{player.shots}}</td>
+                    <td>
+                        {%include "players/playerFavButton.html"%}
+                    </td>
+                </tr>
+            {%endfor%}
+        </table>
+        <h3>Goalies</h3>
+        {%for goalie in goalies%}
+            <a href="/players/{{goalie.id}}">{{goalie.firstName}} {{goalie.lastName}}</a>
+            {%include "players/goalieFavButton.html"%}
+            <br>
+        {%endfor%}
     </div>
 {%endblock%}
