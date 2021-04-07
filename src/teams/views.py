@@ -49,7 +49,7 @@ def teamsView(request):
     context = {
         "teams": data,
     }
-    return(render(request, "teams/allTeams.html", context))
+    return(render(request, "teams/teams.html", context))
 
 
 @login_required
