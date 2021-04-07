@@ -22,5 +22,6 @@ urlpatterns = [
     # homeview and login stuff is here
     url(r"^", include("users.urls")),
     url(r"^", include("teams.urls")),
-    url(r"^", include("players.urls"))
+    url(r"^", include("players.urls")),
+    url(r"^", include("dashboard.urls"))
 ]
