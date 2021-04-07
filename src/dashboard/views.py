@@ -4,6 +4,7 @@ from teams.helpers import *
 from players.helpers import updatePlayers
 from threading import *
 from django.contrib.auth.decorators import login_required
+from players.models import *
 
 @login_required
 def dashboardView(request):
@@ -25,15 +26,18 @@ def dashboardView(request):
         if team.users and request.user.id in team.users:
             userTeams.append(team)
 
-    players = list(Team.objects.all())
+    players = list(Player.objects.all())
     userPlayers = []
     for player in players:
-        if player.users:
-            pass
-
+        if player.users and request.user.id in player.users:
+            userPlayers.append(player)
     
-    if len(data) == 0:
-        return HttpResponseRedirect("/allTeams")
+    goalies = list(Goalie.objects.all())
+    userGoalies = []
+    for goalie in goalies:
+        if goalie.users and request.user.id in goalie.users:
+            userGoalies.append(goalie)
+
     context = {
         "teams": userTeams,
         "players": userPlayers,
