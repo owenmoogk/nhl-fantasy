@@ -31,37 +31,7 @@ def handlePost(request):
     if "star" in request.POST or "unstar" in request.POST:
         favorite(request)
 
-
 @login_required
-def myTeamView(request):
-
-    if request.method == "POST":
-        handlePost(request)
-        return HttpResponseRedirect(request.path)
-
-    # pull data if needed
-    t1 = Thread(target=getTeams, args=(request, ))
-    t1.start()
-
-    # main view
-    teams = list(Team.objects.all())
-    data = []
-    # appending the teams that the user has saved
-    if teams != None:
-        for team in teams:
-            if team.users:
-                if request.user.id in team.users:
-                    data.append(team)
-    if len(data) == 0:
-        return HttpResponseRedirect("/allTeams")
-    context = {
-        "teams": data,
-    }
-    return(render(request, "teams/myTeams.html", context))
-
-
-@login_required
-def allTeamView(request):
 
     # if the user wants to save a team
     if request.method == "POST":
