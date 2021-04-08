@@ -1,19 +1,50 @@
 {%extends "base.html"%}
+{% load static %}
 
 {%block content %}
-    <p>{{player.name}}</p>
-    <p>Born: DATE</p>
-    <p>Shoots: DIRECTION</p>
+
+
+    <p>{{player.firstName}} {{player.lastName}}</p>
+
+
+    <button id="myBtn" onclick = 'showPlayerStats()'>All Data</button>
+    <div id="all-stats">
+        <table>
+            {% for k,v in playerDict.items %}
+                <tr>
+                    <td style="font-weight: bold;">{{k}}</td>
+                    <td>{{v}}</td>
+                </tr>
+            {%endfor%}
+        </table>
+    </div>
+    
+
+    <script src="{% static '/js/player-modal.js' %}"></script>
+
+    </div>
+
+    {%if playerType == 'goalie'%}
+
+        <p>Catches: {{player.shootsCatches}}</p>
+
+
+    {%elif playerType == 'player'%}
+
+    <p>Shoots: {{player.shootsCatches}}</p>
     <table>
         <tr>
             <th>Goals</th>
             <th>Assists</th>
             <th>Shots</th>
+            <th></th>
         </tr>
         <tr>
             <td>{{player.goals}}</td>
             <td>{{player.assists}}</td>
+            <td>{{player.shots}}</td>
         </tr>
     </table>
-    
+
+    {%endif%}
 {%endblock%}

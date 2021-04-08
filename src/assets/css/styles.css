@@ -71,3 +71,11 @@ th{
 }
 
 .dropdown:hover .dropdown-content {display: block;}
+
+#all-stats p{
+    margin: 0;
+}
+
+#all-stats{
+    display: none;
+}

@@ -14,15 +14,29 @@ def playerView(request, **kwargs):
     t1.start()
 
     playerId = kwargs["playerId"]
+
+    player = None
+    error = ""
+    playerType = ""
+
     try:
         player = Player.objects.get(id = playerId)
+        playerType = "player"
     except:
         try:
             player = Goalie.objects.get(id = playerId)
+            playerType = "goalie"
         except:
-            player = "Player does not exist"
-            print(player)
+            error = "Player does not exist"
+
+    playerDict = player.__dict__
+    playerDict.pop("_state")
+    playerDict.pop("users")
+
     context = {
         "player": player,
+        "error": error,
+        "playerType": playerType,
+        "playerDict": playerDict,
     }
     return(render(request, "players/players.html", context))
