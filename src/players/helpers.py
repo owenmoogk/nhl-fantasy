@@ -59,7 +59,7 @@ def updatePlayers():
 
 # returning the players stats by id. If problem returns none
 def getPlayerStats(id):
-    baseUrl = "https://statsapi.web.nhl.com/"
+    baseUrl = "https://api.nhle.com/stats/rest/en/"
     r = requests.get(baseUrl + "/api/v1/people/" + str(id) + "/stats?stats=statsSingleSeason&season=20202021")
     stats = r.json()
     try:
@@ -69,7 +69,7 @@ def getPlayerStats(id):
     return(stats)
 
 def getPlayerMetadata(id):
-    baseUrl = "https://statsapi.web.nhl.com/"
+    baseUrl = "https://api.nhle.com/stats/rest/en/"
     r = requests.get(baseUrl + "/api/v1/people/" + str(id))
     stats = r.json()
     try:
@@ -84,7 +84,7 @@ def getPlayerMetadata(id):
 # getting the ids of all the players on a given team
 # helper function
 def getTeamRosterIds(teamId):
-    baseUrl = "https://statsapi.web.nhl.com/"
+    baseUrl = "https://api.nhle.com/stats/rest/en/"
     r = requests.get(baseUrl + "api/v1/teams/" + str(teamId) + "/roster")
     roster = r.json()
     roster = roster["roster"]

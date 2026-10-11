@@ -9,7 +9,7 @@ from players.views import *
 
 def favorite(request):
     if request.POST.get("objectType") == "team":
-        obj = Team.objects.get(id = request.POST.get("id"))
+        obj = Team.objects.get(abbreviation = request.POST.get("abbreviation"))
     elif request.POST.get("objectType") == "player":
         obj = Player.objects.get(id = request.POST.get("id"))
     elif request.POST.get("objectType") == "goalie":

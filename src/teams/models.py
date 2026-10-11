@@ -4,9 +4,8 @@ from django.contrib.auth.models import User
  
 # Create your models here.
 class Team(models.Model):
-    id = models.IntegerField(primary_key=True)
+    abbreviation = models.CharField(max_length=3, primary_key=True)
     name = models.CharField(max_length=120)
-    abbreviation = models.CharField(max_length=3)
     firstYearOfPlay = models.IntegerField(default=0)
     officialSiteUrl = models.CharField(max_length=1000, default="")
     
@@ -19,7 +18,6 @@ class Team(models.Model):
     losses = models.IntegerField(default=0)
     ot = models.IntegerField(default=0)
     pts = models.IntegerField(default=0)
-    ptPctg = models.DecimalField(decimal_places=1, max_digits=100, default=0)
 
     goalsPerGame = models.DecimalField(decimal_places=3, max_digits=100, default=0)
     goalsAgainstPerGame = models.DecimalField(decimal_places=3, max_digits=100, default=0)

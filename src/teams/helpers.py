@@ -3,59 +3,43 @@ from .models import Team
 import time
 
 def getTeams(request):
-
-    # trys, except the file doesnt exist
+    # Check/create sync tracking file
     try:
         with open("teamTime.txt", "r") as varsText:
-            date = varsText.readline()
-            date = int(float(date))
+            date = int(float(varsText.readline()))
     except Exception:
-        # create it, it is now 1970 /shrug
         with open("teamTime.txt", "w"):
             date = 0
 
-    # ONLY RUNS THIS EVERY DAYISH
-    if time.time()-86400 > date:
+    # Runs once a day-ish
+    if time.time() - 86400 > date:
+        print("Getting team standings and metadata...")
 
-        print("getting the team data")
+        # Modern Web API standings endpoint
+        url = "https://api-web.nhle.com/v1/standings/now"
+        r = requests.get(url)
+        standings_data = r.json().get("standings", [])
 
-        # DOCUMENTATION
-        # 1. Get all the teams metadata
-        # 2. For each team, get the id and retrieve the stats for the corresponding id
-        # 3. Make a final dictionary called teamData, which contains both the metadata and the stats of the team (joining dictionaries with | operator)
-        # 4. save the instance with code from stack overflow :)
+        for item in standings_data:
+            team_id = item.get("teamAbbrev", {}).get("default")
+            team_data = {
+                "id": team_id,
+                "teamName": item.get("teamName", {}).get("default"),
+                "teamAbbrev": team_id,
+                "wins": item.get("wins"),
+                "losses": item.get("losses"),
+                "ot": item.get("otLosses"),
+                "pts": item.get("points"),
+                "goalDifferential": item.get("goalDifferential"),
+            }
 
-        # update the date file
-        with open("teamTime.txt", "w") as varsText:
-            varsText.write(str(time.time()))
-
-        baseUrl = "https://statsapi.web.nhl.com/"
-        r = requests.get(baseUrl + '/api/v1/teams')
-        originalData = r.json()
-        originalData = originalData["teams"]
-        # originalData is the dictionary containing all the metadata of all the teams
-
-        # team is the dictionary with the current teams metadata
-        for team in originalData:
-            print("gettng teaim data")
-            # getting the stats for the current team
-            currTeamId = team["id"]
-            teamStats = getTeamStats(currTeamId)
-
-            # combining the team metadata with the stats for the final dictionary
-            teamData = team | teamStats
-            
-            # https://stackoverflow.com/questions/5503925/how-do-i-use-a-dictionary-to-update-fields-in-django-models
-            instance, created = Team.objects.get_or_create(id=currTeamId)
-            for attr, value in teamData.items(): 
-                setattr(instance, attr, value)
+            print(team_data)
+            instance, created = Team.objects.get_or_create(abbreviation=team_id)
+            for attr, value in team_data.items():
+                if hasattr(instance, attr):
+                    setattr(instance, attr, value)
             instance.save()
 
-
-# gets the stats of the team, returns as a dictionary
-def getTeamStats(id):
-    baseUrl = "https://statsapi.web.nhl.com/"
-    r = requests.get(baseUrl + '/api/v1/teams/' + str(id) + "/stats")
-    teamData = r.json()
-    teamData = teamData["stats"][0]["splits"][0]["stat"]
-    return(teamData)
+        # Update the timestamp file
+        with open("teamTime.txt", "w") as varsText:
+            varsText.write(str(time.time()))
