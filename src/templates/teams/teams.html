@@ -5,7 +5,6 @@
         <table>
             <tr>
                 <th>Team</th>
-                <th>Abb</th>
                 <th>Wins</th>
                 <th>Losses</th>
                 <th>Ties</th>
@@ -14,8 +13,7 @@
             </tr>
             {%for team in teams %}
                 <tr>
-                    <td><a href="/team/{{team.id}}">{{team.name}}</a></td>
-                    <td>{{team.abbreviation}}</td>
+                    <td><a href="/teams/{{team.abbreviation}}">{{team.abbreviation}}</a></td>
                     <td>{{team.wins}}</td>
                     <td>{{team.losses}}</td>
                     <td>{{team.ot}}</td>

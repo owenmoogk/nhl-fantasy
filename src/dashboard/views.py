@@ -18,7 +18,7 @@ def dashboardView(request):
     # pull data if needed
     t1 = Thread(target=getTeams, args=(request, ))
     t1.start()
-    t2 = Thread(target=updatePlayers, args=(request, ))
+    t2 = Thread(target=updatePlayers)
     t2.start()
 
     # main view

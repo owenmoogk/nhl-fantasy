@@ -62,32 +62,31 @@ def teamView(request, **kwargs):
     # pull data if needed
     t1 = Thread(target=getTeams, args=(request, ))
     t1.start()
-    t2 = Thread(target=updatePlayers, args=(request, ))
+    t2 = Thread(target=updatePlayers)
     t2.start()
 
-    id = kwargs["teamId"]
+    team_id = kwargs["teamId"]
 
     try:
-        team = Team.objects.get(id = id)
-    except:
+        team = Team.objects.get(pk=team_id)
+    except Team.DoesNotExist:
         context = {
             "error": "The team could not be found",
         }
         return(render(request, "teams/team.html", context))
 
+    def belongs_to_team(player):
+        current_team = player.currentTeam or {}
+        return (
+            current_team.get("abbreviation") == team.abbreviation
+            or current_team.get("teamAbbrev") == team.abbreviation
+        )
+
     players = list(Player.objects.all())
-    teamPlayers = []
-    if players != None:
-        for player in players:
-            if player.teamId == id:
-                teamPlayers.append(player)
+    teamPlayers = [player for player in players if belongs_to_team(player)]
 
     goalies = list(Goalie.objects.all())
-    teamGoalies = []
-    if goalies != None:
-        for goalie in goalies:
-            if goalie.teamId == id:
-                teamGoalies.append(goalie)
+    teamGoalies = [goalie for goalie in goalies if belongs_to_team(goalie)]
 
     context = {
         "team": team,

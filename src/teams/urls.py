@@ -3,6 +3,6 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    url("teams/", teamsView),
-    path("team/<int:teamId>/", teamView),
+    path("teams/<str:teamId>", teamView),
+    url("teams", teamsView),
 ]
