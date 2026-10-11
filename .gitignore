@@ -1,5 +1,5 @@
 
 src/db.sqlite3
-src/main/settings.py
 src/teamTime.txt
 src/playerTime.txt
+__pycache__
